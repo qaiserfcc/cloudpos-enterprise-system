@@ -1,4 +1,10 @@
-export { securityService, type SecurityEvent, type SessionInfo, type SecurityAudit } from './securityService';
+export { 
+  securityService, 
+  configureSecurityService,
+  type SecurityEvent, 
+  type SessionInfo, 
+  type SecurityAudit 
+} from './securityService';
 
 // Re-export for easy access
-export default securityService;
+export { securityService as default } from './securityService';

@@ -101,31 +101,31 @@ const serviceConfig = {
     },
   },
   transactions: {
-    target: `http://${process.env.TRANSACTION_SERVICE_HOST || 'localhost'}:${process.env.TRANSACTION_SERVICE_PORT || 3002}`,
+    target: `http://${process.env.TRANSACTION_SERVICE_HOST || 'localhost'}:${process.env.TRANSACTION_SERVICE_PORT || 3003}`,
     pathRewrite: {
       [`^/api/${API_VERSION}/transactions`]: '',
     },
   },
   inventory: {
-    target: `http://${process.env.INVENTORY_SERVICE_HOST || 'localhost'}:${process.env.INVENTORY_SERVICE_PORT || 3003}`,
+    target: `http://${process.env.INVENTORY_SERVICE_HOST || 'localhost'}:${process.env.INVENTORY_SERVICE_PORT || 3004}`,
     pathRewrite: {
       [`^/api/${API_VERSION}/inventory`]: '',
     },
   },
   payments: {
-    target: `http://${process.env.PAYMENT_SERVICE_HOST || 'localhost'}:${process.env.PAYMENT_SERVICE_PORT || 3004}`,
+    target: `http://${process.env.PAYMENT_SERVICE_HOST || 'localhost'}:${process.env.PAYMENT_SERVICE_PORT || 3005}`,
     pathRewrite: {
       [`^/api/${API_VERSION}/payments`]: '',
     },
   },
   customers: {
-    target: `http://${process.env.CUSTOMER_SERVICE_HOST || 'localhost'}:${process.env.CUSTOMER_SERVICE_PORT || 3005}`,
+    target: `http://${process.env.CUSTOMER_SERVICE_HOST || 'localhost'}:${process.env.CUSTOMER_SERVICE_PORT || 3006}`,
     pathRewrite: {
       [`^/api/${API_VERSION}/customers`]: '',
     },
   },
   notifications: {
-    target: `http://${process.env.NOTIFICATION_SERVICE_HOST || 'localhost'}:${process.env.NOTIFICATION_SERVICE_PORT || 3006}`,
+    target: `http://${process.env.NOTIFICATION_SERVICE_HOST || 'localhost'}:${process.env.NOTIFICATION_SERVICE_PORT || 3007}`,
     pathRewrite: {
       [`^/api/${API_VERSION}/notifications`]: '',
     },

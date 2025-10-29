@@ -21,7 +21,7 @@ class CustomerServiceApp {
 
   constructor() {
     this.app = express();
-    this.port = parseInt(process.env.PORT || '3002');
+    this.port = parseInt(process.env.PORT || '3006');
     
     this.initializeMiddleware();
     this.initializeRoutes();

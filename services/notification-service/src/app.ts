@@ -9,7 +9,7 @@ import { logger } from './utils/logger';
 import routes from './routes';
 
 const app = express();
-const PORT = process.env.PORT || 3006;
+const PORT = process.env.PORT || 3007;
 
 // Middleware
 app.use(helmet()); // Security headers

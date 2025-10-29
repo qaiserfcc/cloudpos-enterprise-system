@@ -151,11 +151,12 @@ async function checkExternalServices() {
   const services: any = {};
   const serviceHosts = {
     auth: `http://${process.env.AUTH_SERVICE_HOST || 'localhost'}:${process.env.AUTH_SERVICE_PORT || 3001}`,
-    transactions: `http://${process.env.TRANSACTION_SERVICE_HOST || 'localhost'}:${process.env.TRANSACTION_SERVICE_PORT || 3002}`,
-    inventory: `http://${process.env.INVENTORY_SERVICE_HOST || 'localhost'}:${process.env.INVENTORY_SERVICE_PORT || 3003}`,
-    payments: `http://${process.env.PAYMENT_SERVICE_HOST || 'localhost'}:${process.env.PAYMENT_SERVICE_PORT || 3004}`,
-    customers: `http://${process.env.CUSTOMER_SERVICE_HOST || 'localhost'}:${process.env.CUSTOMER_SERVICE_PORT || 3005}`,
-    notifications: `http://${process.env.NOTIFICATION_SERVICE_HOST || 'localhost'}:${process.env.NOTIFICATION_SERVICE_PORT || 3006}`
+    transactions: `http://${process.env.TRANSACTION_SERVICE_HOST || 'localhost'}:${process.env.TRANSACTION_SERVICE_PORT || 3003}`,
+    inventory: `http://${process.env.INVENTORY_SERVICE_HOST || 'localhost'}:${process.env.INVENTORY_SERVICE_PORT || 3004}`,
+    payments: `http://${process.env.PAYMENT_SERVICE_HOST || 'localhost'}:${process.env.PAYMENT_SERVICE_PORT || 3005}`,
+    customers: `http://${process.env.CUSTOMER_SERVICE_HOST || 'localhost'}:${process.env.CUSTOMER_SERVICE_PORT || 3006}`,
+    notifications: `http://${process.env.NOTIFICATION_SERVICE_HOST || 'localhost'}:${process.env.NOTIFICATION_SERVICE_PORT || 3007}`,
+    reporting: `http://${process.env.REPORTING_SERVICE_HOST || 'localhost'}:${process.env.REPORTING_SERVICE_PORT || 3008}`
   };
 
   // Check each service with timeout

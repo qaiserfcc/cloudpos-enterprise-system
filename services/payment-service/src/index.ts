@@ -14,7 +14,7 @@ import { paymentRoutes } from './routes/payments';
 import { webhookRoutes } from './routes/webhooks';
 
 const app = express();
-const PORT = process.env.PORT || 3004;
+const PORT = process.env.PORT || 3005;
 
 // Security middleware
 app.use(helmet({

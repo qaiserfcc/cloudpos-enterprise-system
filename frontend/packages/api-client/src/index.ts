@@ -5,11 +5,20 @@ import type {
   Product
 } from '@cloudpos/types';
 
+// Configuration for API base URL
+let API_BASE_URL = 'http://localhost:3000/api';
+
+export const setApiBaseUrl = (url: string) => {
+  API_BASE_URL = url;
+};
+
+export const getApiBaseUrl = () => API_BASE_URL;
+
 // Base API configuration with RTK Query
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_URL || 'http://localhost:3000/api',
+    baseUrl: getApiBaseUrl(),
     prepareHeaders: (headers, { getState }) => {
       // Type the getState function
       const state = getState() as { auth?: { token?: string } };

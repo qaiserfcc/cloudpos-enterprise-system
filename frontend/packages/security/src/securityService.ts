@@ -19,14 +19,28 @@ const simpleHash = (data: string): string => {
 };
 
 // Security configuration
-const SECURITY_CONFIG = {
+let SECURITY_CONFIG = {
   SESSION_TIMEOUT: 30 * 60 * 1000, // 30 minutes
   MAX_LOGIN_ATTEMPTS: 5,
   LOCKOUT_DURATION: 15 * 60 * 1000, // 15 minutes
   PASSWORD_MIN_LENGTH: 8,
-  ENCRYPTION_KEY: process.env.REACT_APP_ENCRYPTION_KEY || 'cloudpos-default-key',
+  ENCRYPTION_KEY: 'cloudpos-default-key',
   API_RATE_LIMIT: 1000, // requests per hour
   CSP_POLICY: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;"
+};
+
+let IS_DEVELOPMENT = false;
+
+export const configureSecurityService = (config: {
+  encryptionKey?: string;
+  isDevelopment?: boolean;
+}) => {
+  if (config.encryptionKey) {
+    SECURITY_CONFIG.ENCRYPTION_KEY = config.encryptionKey;
+  }
+  if (config.isDevelopment !== undefined) {
+    IS_DEVELOPMENT = config.isDevelopment;
+  }
 };
 
 export interface SecurityEvent {
@@ -62,7 +76,7 @@ export interface SecurityAudit {
 
 class SecurityService {
   private static instance: SecurityService;
-  private sessionTimeout: NodeJS.Timeout | null = null;
+  private sessionTimeout: number | null = null;
   private securityEvents: SecurityEvent[] = [];
   private activeSessions: Map<string, SessionInfo> = new Map();
   private loginAttempts: Map<string, { count: number; lastAttempt: Date }> = new Map();
@@ -292,7 +306,7 @@ class SecurityService {
     }
 
     // Log to console in development
-    if (process.env.NODE_ENV === 'development') {
+    if (IS_DEVELOPMENT) {
       console.log(`[SECURITY ${severity}] ${event}: ${details}`, metadata);
     }
 

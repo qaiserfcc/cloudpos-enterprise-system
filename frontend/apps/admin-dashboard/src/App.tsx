@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { store } from './store';
+import { setApiBaseUrl } from '@cloudpos/api-client';
 import SimpleLoginPage from './pages/SimpleLoginPage';
 import ProductManagementPage from './pages/ProductManagementPage';
 import InventoryManagementPage from './pages/InventoryManagementPage';
@@ -25,6 +26,9 @@ import { createResponsiveTheme } from './theme/responsiveTheme';
 import { useState } from 'react';
 
 const theme = createResponsiveTheme();
+
+// Configure API base URL from environment variables
+setApiBaseUrl(import.meta.env.VITE_API_URL || 'http://localhost:3000/api');
 
 function App() {
   // For now, we'll use a simple boolean to simulate authentication

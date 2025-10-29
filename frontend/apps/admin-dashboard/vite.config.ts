@@ -15,8 +15,13 @@ export default defineConfig({
       '@cloudpos/layout': resolve(__dirname, '../../packages/layout/src'),
     },
   },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL || 'http://localhost:3000/api'),
+    'process.env.REACT_APP_ENCRYPTION_KEY': JSON.stringify(process.env.REACT_APP_ENCRYPTION_KEY || 'cloudpos-default-key'),
+  },
   server: {
-    port: 3001,
+    port: 3002,
     host: true,
   },
   build: {
