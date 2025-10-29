@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "lib": ["ES2022"],
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "exactOptionalPropertyTypes": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["./shared/*/src"],
+      "@shared/types": ["./shared/types/src"],
+      "@shared/utils": ["./shared/utils/src"],
+      "@shared/database": ["./shared/database/src"],
+      "@shared/middleware": ["./shared/middleware/src"]
+    }
+  },
+  "references": [
+    { "path": "./shared/types" },
+    { "path": "./shared/utils" },
+    { "path": "./shared/database" },
+    { "path": "./shared/middleware" },
+    { "path": "./services/auth-service" },
+    { "path": "./services/inventory-service" },
+    { "path": "./services/payment-service" },
+    { "path": "./services/customer-service" },
+    { "path": "./services/notification-service" },
+    { "path": "./services/reporting-service" },
+    { "path": "./services/transaction-service" },
+    { "path": "./services/api-gateway" }
+  ],
+  "files": [],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
+}

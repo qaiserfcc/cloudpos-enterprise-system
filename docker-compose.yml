@@ -1,0 +1,408 @@
+version: '3.8'
+
+services:
+  # Database Services
+  postgres:
+    image: postgres:15-alpine
+    container_name: cloudpos-postgres
+    environment:
+      POSTGRES_DB: cloudpos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cloudpos123
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./shared/database/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - cloudpos-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    container_name: cloudpos-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - cloudpos-network
+    command: redis-server --appendonly yes --requirepass cloudpos123
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mongodb:
+    image: mongo:7
+    container_name: cloudpos-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: cloudpos123
+      MONGO_INITDB_DATABASE: cloudpos_analytics
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./shared/database/mongo-init:/docker-entrypoint-initdb.d
+    networks:
+      - cloudpos-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Core Services
+  api-gateway:
+    build:
+      context: .
+      dockerfile: services/api-gateway/Dockerfile
+      target: development
+    container_name: cloudpos-api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: cloudpos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cloudpos123
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cloudpos123
+      MONGODB_URL: mongodb://admin:cloudpos123@mongodb:27017/cloudpos_analytics?authSource=admin
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      API_VERSION: v1
+    volumes:
+      - ./services/api-gateway:/app
+      - /app/node_modules
+    networks:
+      - cloudpos-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: services/auth-service/Dockerfile
+      target: development
+    container_name: cloudpos-auth-service
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: cloudpos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cloudpos123
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cloudpos123
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      JWT_EXPIRY: 24h
+      REFRESH_TOKEN_EXPIRY: 7d
+      BCRYPT_ROUNDS: 12
+    volumes:
+      - ./services/auth-service:/app
+      - /app/node_modules
+    networks:
+      - cloudpos-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  transaction-service:
+    build:
+      context: .
+      dockerfile: services/transaction-service/Dockerfile
+      target: development
+    container_name: cloudpos-transaction-service
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: development
+      PORT: 3002
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: cloudpos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cloudpos123
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cloudpos123
+      MONGODB_URL: mongodb://admin:cloudpos123@mongodb:27017/cloudpos_analytics?authSource=admin
+    volumes:
+      - ./services/transaction-service:/app
+      - /app/node_modules
+    networks:
+      - cloudpos-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  inventory-service:
+    build:
+      context: .
+      dockerfile: services/inventory-service/Dockerfile
+      target: development
+    container_name: cloudpos-inventory-service
+    ports:
+      - "3003:3003"
+    environment:
+      NODE_ENV: development
+      PORT: 3003
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: cloudpos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cloudpos123
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cloudpos123
+      MONGODB_URL: mongodb://admin:cloudpos123@mongodb:27017/cloudpos_analytics?authSource=admin
+    volumes:
+      - ./services/inventory-service:/app
+      - /app/node_modules
+    networks:
+      - cloudpos-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: services/payment-service/Dockerfile
+      target: development
+    container_name: cloudpos-payment-service
+    ports:
+      - "3004:3004"
+    environment:
+      NODE_ENV: development
+      PORT: 3004
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: cloudpos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cloudpos123
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cloudpos123
+      MONGODB_URL: mongodb://admin:cloudpos123@mongodb:27017/cloudpos_analytics?authSource=admin
+      # Payment Gateway Configuration
+      STRIPE_SECRET_KEY: sk_test_your_stripe_key_here
+      PAYPAL_CLIENT_ID: your_paypal_client_id_here
+      PAYPAL_CLIENT_SECRET: your_paypal_client_secret_here
+    volumes:
+      - ./services/payment-service:/app
+      - /app/node_modules
+    networks:
+      - cloudpos-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  customer-service:
+    build:
+      context: .
+      dockerfile: services/customer-service/Dockerfile
+      target: development
+    container_name: cloudpos-customer-service
+    ports:
+      - "3005:3005"
+    environment:
+      NODE_ENV: development
+      PORT: 3005
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: cloudpos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cloudpos123
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cloudpos123
+      MONGODB_URL: mongodb://admin:cloudpos123@mongodb:27017/cloudpos_analytics?authSource=admin
+    volumes:
+      - ./services/customer-service:/app
+      - /app/node_modules
+    networks:
+      - cloudpos-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3005/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: services/notification-service/Dockerfile
+      target: development
+    container_name: cloudpos-notification-service
+    ports:
+      - "3006:3006"
+    environment:
+      NODE_ENV: development
+      PORT: 3006
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: cloudpos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cloudpos123
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cloudpos123
+      MONGODB_URL: mongodb://admin:cloudpos123@mongodb:27017/cloudpos_analytics?authSource=admin
+      # Email Configuration
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USER: your-email@gmail.com
+      SMTP_PASS: your-app-password
+      # SMS Configuration
+      TWILIO_ACCOUNT_SID: your_twilio_account_sid
+      TWILIO_AUTH_TOKEN: your_twilio_auth_token
+      TWILIO_PHONE_NUMBER: +1234567890
+    volumes:
+      - ./services/notification-service:/app
+      - /app/node_modules
+    networks:
+      - cloudpos-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3006/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Monitoring and Management
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: cloudpos-redis-commander
+    environment:
+      REDIS_HOSTS: local:redis:6379:0:cloudpos123
+    ports:
+      - "8081:8081"
+    networks:
+      - cloudpos-network
+    depends_on:
+      - redis
+    profiles:
+      - tools
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: cloudpos-mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: cloudpos123
+      ME_CONFIG_MONGODB_URL: mongodb://admin:cloudpos123@mongodb:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: cloudpos123
+    ports:
+      - "8082:8081"
+    networks:
+      - cloudpos-network
+    depends_on:
+      - mongodb
+    profiles:
+      - tools
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: cloudpos-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@cloudpos.com
+      PGADMIN_DEFAULT_PASSWORD: cloudpos123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - cloudpos-network
+    depends_on:
+      - postgres
+    profiles:
+      - tools
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  mongodb_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  cloudpos-network:
+    driver: bridge

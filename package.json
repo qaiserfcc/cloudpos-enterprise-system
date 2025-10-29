@@ -1,0 +1,62 @@
+{
+  "name": "cloud-pos-system",
+  "version": "1.0.0",
+  "description": "Cloud-based Point of Sale System with Microservices Architecture",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "shared/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=services/api-gateway\" \"npm run dev --workspace=services/auth-service\" \"npm run dev --workspace=services/transaction-service\" \"npm run dev --workspace=services/inventory-service\" \"npm run dev --workspace=services/payment-service\" \"npm run dev --workspace=services/customer-service\" \"npm run dev --workspace=services/notification-service\"",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "db:migrate": "npm run migrate --workspace=shared/database",
+    "db:seed": "npm run seed --workspace=shared/database",
+    "db:reset": "npm run reset --workspace=shared/database"
+  },
+  "keywords": [
+    "pos",
+    "point-of-sale",
+    "microservices",
+    "cloud",
+    "retail",
+    "e-commerce",
+    "typescript",
+    "nodejs"
+  ],
+  "author": "Cloud POS Development Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "concurrently": "^8.2.0",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/cloud-pos-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/cloud-pos-system/issues"
+  },
+  "homepage": "https://github.com/your-org/cloud-pos-system#readme"
+}

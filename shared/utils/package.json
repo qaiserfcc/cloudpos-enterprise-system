@@ -1,0 +1,25 @@
+{
+  "name": "@shared/utils",
+  "version": "1.0.0",
+  "description": "Shared utilities for Cloud POS System",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@shared/types": "*",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "validator": "^13.11.0",
+    "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.4",
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/validator": "^13.11.1",
+    "typescript": "^5.2.2"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "@shared/database",
+  "version": "1.0.0",
+  "description": "Database management layer for Cloud POS system - PostgreSQL, Redis, and MongoDB",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "migrate": "node dist/migration.js",
+    "seed": "node dist/seed.js",
+    "reset": "node dist/reset.js",
+    "generate": "node dist/generate-migration.js"
+  },
+  "keywords": [
+    "cloud-pos",
+    "database",
+    "postgresql",
+    "redis",
+    "mongodb",
+    "cache",
+    "analytics"
+  ],
+  "dependencies": {
+    "@shared/types": "*",
+    "@shared/utils": "*",
+    "pg": "^8.11.3",
+    "redis": "^4.6.8",
+    "ioredis": "^5.3.2",
+    "mongodb": "^6.1.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@types/pg": "^8.10.7",
+    "typescript": "^5.2.2",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.5",
+    "eslint": "^8.51.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5"
+  }
+}
