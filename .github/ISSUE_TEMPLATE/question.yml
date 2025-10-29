@@ -1,0 +1,162 @@
+name: ❓ Question/Support
+description: Ask a question or get help with CloudPOS
+title: "[QUESTION] "
+labels: ["question", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your question! Please provide as much detail as possible to help us give you the best answer.
+        
+        **Note:** For security vulnerabilities, please email `security@cloudpos-enterprise.com` instead of creating a public issue.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you've done the following before asking
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: I have reviewed the documentation
+          required: true
+        - label: I have checked the troubleshooting guide
+          required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Question Category
+      description: What is your question about?
+      options:
+        - Installation/Setup
+        - Configuration
+        - Usage/How-to
+        - Architecture/Design
+        - API Usage
+        - Deployment
+        - Integration
+        - Performance
+        - Security
+        - Troubleshooting
+        - Best Practices
+        - Contributing
+        - Other
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Related Component
+      description: Which part of CloudPOS is your question about?
+      options:
+        - General/Overall System
+        - API Gateway
+        - Auth Service
+        - Inventory Service
+        - Transaction Service
+        - Payment Service
+        - Customer Service
+        - Notification Service
+        - Reporting Service
+        - Admin Dashboard
+        - Manager Portal
+        - POS Terminal
+        - Database
+        - Deployment/Infrastructure
+        - Documentation
+        - Other
+      default: 0
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: Please ask your question clearly and provide context
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and Background
+      description: Provide context about what you're trying to accomplish
+      placeholder: |
+        Help us understand your situation:
+        - What are you trying to achieve?
+        - What is your use case?
+        - What have you tried so far?
+        - What challenges are you facing?
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Information
+      description: Provide details about your environment (if relevant)
+      placeholder: |
+        Environment details (if applicable):
+        - CloudPOS version: [e.g., 1.0.0, latest]
+        - OS: [e.g., Ubuntu 20.04, macOS 12.0, Windows 11]
+        - Node.js version: [e.g., 18.15.0]
+        - Database: [PostgreSQL, MongoDB version]
+        - Deployment method: [Docker, manual, cloud]
+
+  - type: textarea
+    id: attempted_solutions
+    attributes:
+      label: What Have You Tried?
+      description: What solutions or approaches have you already attempted?
+      placeholder: |
+        Describe what you've tried:
+        - Documentation sections reviewed
+        - Configuration changes attempted
+        - Error messages encountered
+        - Similar solutions that didn't work
+
+  - type: textarea
+    id: expected_outcome
+    attributes:
+      label: Expected Outcome
+      description: What outcome or behavior are you expecting?
+      placeholder: Describe what you expect to happen or achieve
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: Additional Information
+      description: Any additional context, screenshots, or logs that might be helpful
+      placeholder: |
+        Additional context:
+        - Screenshots or diagrams
+        - Error logs or console output
+        - Configuration files (remove sensitive data)
+        - Links to relevant documentation
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency
+      description: How urgent is this question for you?
+      options:
+        - Low (General inquiry/learning)
+        - Medium (Planning/development)
+        - High (Blocking current work)
+        - Critical (Production issue)
+      default: 1
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Future Contribution
+      description: Would you be interested in helping others with similar questions?
+      options:
+        - label: I'd be willing to contribute documentation based on the answer
+        - label: I'd like to help answer similar questions in the future
+        - label: I'd be interested in creating tutorials or examples

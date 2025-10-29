@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔒 Security Vulnerability
+    url: https://github.com/qaiserfcc/cloudpos-enterprise-system/security/advisories/new
+    about: Report security vulnerabilities privately
+  - name: 💬 GitHub Discussions
+    url: https://github.com/qaiserfcc/cloudpos-enterprise-system/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 📖 Documentation
+    url: https://github.com/qaiserfcc/cloudpos-enterprise-system/blob/master/README.md
+    about: Read the comprehensive documentation and guides
+  - name: 🚀 Contributing Guide
+    url: https://github.com/qaiserfcc/cloudpos-enterprise-system/blob/master/CONTRIBUTING.md
+    about: Learn how to contribute to CloudPOS Enterprise System

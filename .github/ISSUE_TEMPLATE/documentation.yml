@@ -1,0 +1,142 @@
+name: 📚 Documentation
+description: Report issues or suggest improvements to documentation
+title: "[DOCS] "
+labels: ["documentation", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve our documentation! Please provide details about the documentation issue or improvement.
+
+  - type: dropdown
+    id: doc_type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation is this about?
+      options:
+        - README
+        - API Documentation
+        - Setup/Installation Guide
+        - Contributing Guidelines
+        - Code Comments
+        - Architecture Documentation
+        - User Guide
+        - Troubleshooting Guide
+        - Examples/Tutorials
+        - Configuration Reference
+        - Deployment Guide
+        - Security Documentation
+        - Other
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      description: What type of documentation issue is this?
+      options:
+        - Missing documentation
+        - Incorrect/outdated information
+        - Unclear/confusing content
+        - Broken links
+        - Formatting issues
+        - Grammar/spelling errors
+        - Enhancement suggestion
+        - New documentation needed
+      default: 0
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Documentation Location
+      description: Where is the documentation located?
+      placeholder: "e.g., README.md line 45, /docs/api/auth.md, website URL"
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_content
+    attributes:
+      label: Current Content
+      description: What does the current documentation say? (copy/paste if applicable)
+      placeholder: Paste the current content or describe what's currently documented
+
+  - type: textarea
+    id: issue_description
+    attributes:
+      label: Issue Description
+      description: What is wrong with the current documentation?
+      placeholder: |
+        Describe the issue:
+        - What is incorrect or missing?
+        - Why is it confusing?
+        - What problems does it cause?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested_improvement
+    attributes:
+      label: Suggested Improvement
+      description: How should the documentation be improved?
+      placeholder: |
+        Provide specific suggestions:
+        - What should be added or changed?
+        - How would you rewrite the section?
+        - What examples would be helpful?
+    validations:
+      required: true
+
+  - type: textarea
+    id: user_impact
+    attributes:
+      label: User Impact
+      description: Who is affected by this documentation issue?
+      placeholder: |
+        Describe the impact:
+        - Which users are affected? (developers, admins, end-users)
+        - How does this issue impact their workflow?
+        - What level of CloudPOS experience is required?
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this documentation fix?
+      options:
+        - Critical (Blocks usage/causes major confusion)
+        - High (Significantly impacts user experience)
+        - Medium (Moderate improvement needed)
+        - Low (Minor enhancement)
+      default: 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any additional context or examples?
+      placeholder: |
+        Provide additional context:
+        - Screenshots of current documentation
+        - Examples from other projects
+        - Related issues or discussions
+        - User feedback received
+
+  - type: checkboxes
+    id: volunteer
+    attributes:
+      label: Contribution
+      description: Are you willing to help improve this documentation?
+      options:
+        - label: I'm willing to submit a PR to fix this documentation
+        - label: I can help review documentation changes
+        - label: I can provide additional examples or content
+        - label: I can help test the improved documentation

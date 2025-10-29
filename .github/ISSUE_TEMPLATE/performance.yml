@@ -1,0 +1,203 @@
+name: 🚀 Performance Issue
+description: Report performance problems or optimization opportunities
+title: "[PERFORMANCE] "
+labels: ["performance", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a performance issue! Please provide detailed information to help us understand and address the problem.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      description: Which part of CloudPOS has the performance issue?
+      options:
+        - API Gateway
+        - Auth Service
+        - Inventory Service
+        - Transaction Service
+        - Payment Service
+        - Customer Service
+        - Notification Service
+        - Reporting Service
+        - Admin Dashboard
+        - Manager Portal
+        - POS Terminal
+        - Database Queries
+        - Frontend Loading
+        - Network/API Calls
+        - File Operations
+        - Background Jobs
+        - Other
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: performance_type
+    attributes:
+      label: Performance Issue Type
+      description: What type of performance issue is this?
+      options:
+        - Slow response times
+        - High memory usage
+        - High CPU usage
+        - Database performance
+        - Network latency
+        - UI lag/freezing
+        - Long loading times
+        - Timeout errors
+        - Resource leaks
+        - Inefficient algorithms
+        - Other
+      default: 0
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Performance Issue Description
+      description: Describe the performance problem in detail
+      placeholder: |
+        Provide a clear description:
+        - What specific operation is slow?
+        - When did you first notice this issue?
+        - How does it impact user experience?
+    validations:
+      required: true
+
+  - type: textarea
+    id: metrics
+    attributes:
+      label: Performance Metrics
+      description: Provide specific performance measurements
+      placeholder: |
+        Include measurable data:
+        - Response times (e.g., "API calls take 5+ seconds")
+        - Memory usage (e.g., "Memory increases to 2GB")
+        - CPU usage (e.g., "CPU hits 100% during operation")
+        - Database query times
+        - Page load times
+        - Before/after measurements if available
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this performance issue?
+      placeholder: |
+        Provide detailed steps:
+        1. Set up environment with...
+        2. Perform action...
+        3. Measure performance...
+        4. Observe slow behavior...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Provide details about your environment
+      placeholder: |
+        Environment information:
+        - OS: [e.g., Ubuntu 20.04, macOS 12.0]
+        - Hardware: [CPU, RAM, storage type]
+        - CloudPOS version: [e.g., 1.0.0, latest]
+        - Database: [PostgreSQL 14.7, MongoDB 6.0]
+        - Docker version: [if using containers]
+        - Load conditions: [number of users, data volume]
+        - Network: [local, cloud, bandwidth]
+    validations:
+      required: true
+
+  - type: textarea
+    id: data_volume
+    attributes:
+      label: Data Volume and Load
+      description: What is the scale of data and usage?
+      placeholder: |
+        Provide scale information:
+        - Number of records in relevant tables
+        - Number of concurrent users
+        - Request volume (requests per second/minute)
+        - Data size being processed
+        - Peak usage times
+
+  - type: textarea
+    id: investigation
+    attributes:
+      label: Investigation Done
+      description: What investigation or profiling have you done?
+      placeholder: |
+        Describe any analysis performed:
+        - Profiling tools used
+        - Database query analysis
+        - Network monitoring
+        - Browser developer tools
+        - Log analysis
+        - Performance monitoring results
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is this performance issue?
+      options:
+        - Critical (System unusable/major impact)
+        - High (Significant impact on users)
+        - Medium (Noticeable but manageable)
+        - Low (Minor performance degradation)
+      default: 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_performance
+    attributes:
+      label: Expected Performance
+      description: What performance levels do you expect?
+      placeholder: |
+        Describe expected performance:
+        - Target response times
+        - Acceptable resource usage
+        - Scalability requirements
+        - Performance benchmarks from similar systems
+
+  - type: textarea
+    id: workarounds
+    attributes:
+      label: Current Workarounds
+      description: Are there any workarounds you're currently using?
+      placeholder: Describe any temporary solutions or workarounds
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and Traces
+      description: Provide relevant logs, traces, or monitoring data
+      placeholder: |
+        Paste logs or attach files:
+        - Error logs
+        - Performance traces
+        - Database slow query logs
+        - Monitoring screenshots
+        - Profiling results
+
+  - type: checkboxes
+    id: volunteer
+    attributes:
+      label: Contribution
+      description: Are you willing to help optimize this performance issue?
+      options:
+        - label: I'm willing to submit a PR to fix this performance issue
+        - label: I can help with performance testing
+        - label: I can provide additional profiling data
+        - label: I can help validate the fix
